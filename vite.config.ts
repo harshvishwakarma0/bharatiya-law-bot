@@ -8,15 +8,17 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
     server: { entry: "server" },
   },
   vite: {
+    server: {
+      allowedHosts: true,
+    },
+    preview: {
+      allowedHosts: true,
+    },
     plugins: [
       {
-        // tr46 (used by the mongodb driver) requires "punycode/" with a trailing slash,
-        // which the Worker build can't resolve. Rewrite it to plain "punycode".
         name: "fix-punycode-slash",
         enforce: "pre",
         applyToEnvironment: () => true,
@@ -29,3 +31,4 @@ export default defineConfig({
     ],
   },
 });
+
